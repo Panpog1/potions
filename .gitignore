@@ -1,6 +1,6 @@
 #parts from https://github.com/github/gitignore/blob/master/Java.gitignore
 *.class
-
+/bin/
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
