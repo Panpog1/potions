@@ -11,16 +11,17 @@ public class Ae extends Compound {
 	}
 
 	@Override
-	public HashSet<Compound> react(HashSet<Compound> all){
-		HashSet<Compound> r = new HashSet<Compound>();
-		boolean changed = false;
-		for(Compound c:all){
-			while(c instanceof E){
-				c=((E)c).of;
-				changed=true;
+	public boolean react(HashSet<Compound> idgs){
+		System.out.println(idgs);
+		for(Compound c:idgs){
+			System.out.println(idgs);
+			if(c instanceof E){
+				Compound newC=((E)c).of;
+				idgs.remove(c);
+				idgs.add(newC);
+				return true;
 			}
-			r.add(c);
 		}
-		return changed?r:all;
+		return false;
 	}
 }

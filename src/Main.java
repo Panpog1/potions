@@ -17,14 +17,11 @@ public class Main {
 				idgs.add(nextIdg);
 				boolean done=false;
 				while(!done){
+					done=true;
 					for(Compound idg:idgs){
-						HashSet<Compound> x = idg.react(idgs);
-						if(x!=idgs){
+						if(idg.react(idgs)){
 							done=false;
-							idgs=x;
 							break;
-						}else{
-							done=true;
 						}
 					}
 				}

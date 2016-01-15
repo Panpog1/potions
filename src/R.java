@@ -1,18 +1,15 @@
 import java.util.HashSet;
 public class R extends Compound{
 	private Compound inner;
-	public HashSet<Compound> react(HashSet<Compound> idgs){
-		if(idgs.contains(inner)){
-			 HashSet<Compound> out = new HashSet<Compound>(idgs);
-			 out.remove(inner);
-			 return out;
-		}
-		return idgs;
-	}
+	
 	public R(Compound inner){
 		this.inner=inner;
 	}
 	
+	@Override
+	public boolean react(HashSet<Compound> ids){
+		return ids.remove(inner);
+	}
 	@Override
 	public String toString(){
 		return "R"+inner.toString();
