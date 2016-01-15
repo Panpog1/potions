@@ -15,8 +15,8 @@ public class Ae extends Compound {
 		HashSet<Compound> r = new HashSet<Compound>();
 		boolean changed = false;
 		for(Compound c:all){
-			while(c instanceof Essence){
-				c=((Essence)c).of;
+			while(c instanceof E){
+				c=((E)c).of;
 				changed=true;
 			}
 			r.add(c);

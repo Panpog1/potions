@@ -1,8 +1,8 @@
 
-public class Essence extends Compound{
+public class E extends Compound{
 	public final Compound of;
 	
-	public Essence(Compound of){
+	public E(Compound of){
 		this.of=of;
 	}
 	
@@ -26,7 +26,7 @@ public class Essence extends Compound{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Essence other = (Essence) obj;
+		E other = (E) obj;
 		if (of == null) {
 			if (other.of != null)
 				return false;

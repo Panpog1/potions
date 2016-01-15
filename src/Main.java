@@ -34,7 +34,7 @@ public class Main {
 	private static Compound parse(String s){
 		if(s.startsWith("!")){
 			Compound inner =parse(s.substring(1));
-			return inner==null?null:(new Essence(inner));
+			return inner==null?null:(new E(inner));
 		}
 		if(s.startsWith("(")&&s.endsWith(")")){
 			return new Base(s.substring(1, s.length()-1));
