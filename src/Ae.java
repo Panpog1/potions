@@ -12,9 +12,7 @@ public class Ae extends Compound {
 
 	@Override
 	public boolean react(HashSet<Compound> idgs){
-		System.out.println(idgs);
 		for(Compound c:idgs){
-			System.out.println(idgs);
 			if(c instanceof E){
 				Compound newC=((E)c).of;
 				idgs.remove(c);
