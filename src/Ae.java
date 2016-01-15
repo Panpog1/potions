@@ -7,7 +7,7 @@ public class Ae extends Compound {
 	private Ae(){}
 	
 	public String toString(){
-		return "anti-essence";
+		return "Ae";
 	}
 
 	@Override

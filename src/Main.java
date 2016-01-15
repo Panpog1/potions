@@ -32,7 +32,7 @@ public class Main {
 		}
 	}
 	private static Compound parse(String s){
-		if(s.startsWith("!")){
+		if(s.startsWith("E")){
 			Compound inner =parse(s.substring(1));
 			return inner==null?null:(new E(inner));
 		}
@@ -41,6 +41,10 @@ public class Main {
 		}
 		if(s.equals("anti-essence")||s.equals("Ae")){
 			return Ae.ae;
+		}
+		if(s.startsWith("R")){
+			Compound inner =parse(s.substring(1));
+			return inner==null?null:(new R(inner));
 		}
 		return null;
 	}

@@ -7,7 +7,7 @@ public class E extends Compound{
 	}
 	
 	public String toString(){
-		return String.format("!"+of);
+		return String.format("E"+of);
 	}
 
 	@Override
