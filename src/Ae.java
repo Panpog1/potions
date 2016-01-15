@@ -1,14 +1,18 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
-public class AntiEssence extends Compound {
+
+public class Ae extends Compound {
+	static Ae ae=new Ae();
+	
+	private Ae(){}
+	
 	public String toString(){
 		return "anti-essence";
 	}
 
 	@Override
-	public List<Compound> react(List<Compound> all){
-		List<Compound> r = new ArrayList<Compound>();
+	public HashSet<Compound> react(HashSet<Compound> all){
+		HashSet<Compound> r = new HashSet<Compound>();
 		boolean changed = false;
 		for(Compound c:all){
 			while(c instanceof Essence){

@@ -1,11 +1,11 @@
+
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 public class Main {
 	static Scanner in = new Scanner(System.in);
 	public static void main(String[] args) {
-		List<Compound> idgs = new ArrayList<Compound>();
+		HashSet<Compound> idgs = new HashSet<Compound>();
 		while(true){
 			System.out.print("Cauldron contains: "+idgs+
 					"\nAdd ad an ingredient: ");
@@ -18,7 +18,7 @@ public class Main {
 				boolean done=false;
 				while(!done){
 					for(Compound idg:idgs){
-						List<Compound> x = idg.react(idgs);
+						HashSet<Compound> x = idg.react(idgs);
 						if(x!=idgs){
 							done=false;
 							idgs=x;
@@ -40,9 +40,8 @@ public class Main {
 			return new Base(s.substring(1, s.length()-1));
 		}
 		if(s.equals("anti-essence")||s.equals("Ae")){
-			return new AntiEssence();
+			return Ae.ae;
 		}
 		return null;
 	}
 }
-
