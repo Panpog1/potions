@@ -71,7 +71,7 @@ public class Main {
 		if (s.startsWith("(") && s.endsWith(")")) {
 			return new Base(s.substring(1, s.length() - 1));
 		}
-		if (s.equals("anti-essence") || s.equals("Ae")) {
+		if (s.equals("Ae")) {
 			return Ae.ae;
 		}
 		if (s.startsWith("R")) {
