@@ -64,6 +64,8 @@ public class Main {
 	}
 
 	private static Compound parse(String s) {
+		if(s.isEmpty())
+			return null;
 		s = numbersToLetters(s);
 		if (s == null)
 			return null;
