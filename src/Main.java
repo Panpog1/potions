@@ -23,28 +23,19 @@ public class Main {
 			}
 		}
 		while (true) {
-			System.out.print("Cauldron contains: ");
+			if (!idgs.isEmpty())
+				System.out.print("Cauldron contains: ");
 			for (Compound idg : idgs) {
 				System.out.print(idg + " ");
 			}
 			System.out.print("\nAdd ad an ingredient: ");
 			// Idg is ingridient
 			String nextLine = in.nextLine();
-			if (nextLine.startsWith("#")) {
-				System.out.println("Comand mode. args to convert curent contents to comand line form");
-				String comand = in.nextLine();
-				if (comand.equals("args")) {
-					System.out.println();
-				} else {
-					System.out.println("unkown comand");
-				}
+			Compound nextIdg = parse(nextLine);
+			if (nextIdg == null) {
+				System.out.print("I don't recognise that ingridient");
 			} else {
-				Compound nextIdg = parse(nextLine);
-				if (nextIdg == null) {
-					System.out.print("I don't recognise that ingridient");
-				} else {
-					add(nextIdg);
-				}
+				add(nextIdg);
 			}
 		}
 	}
@@ -64,7 +55,7 @@ public class Main {
 	}
 
 	private static Compound parse(String s) {
-		if(s.isEmpty())
+		if (s.isEmpty())
 			return null;
 		s = numbersToLetters(s);
 		if (s == null)
@@ -86,10 +77,6 @@ public class Main {
 		return null;
 	}
 
-	/**
-	 * @param s
-	 * @return
-	 */
 	private static String numbersToLetters(String s) {
 		if (Character.isDigit(s.charAt(0))) {
 			boolean failure = true;
