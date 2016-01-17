@@ -1,13 +1,15 @@
 public class Base extends Compound {
 	public String name;
-	
-	public Base(String name){
-		this.name=name;
+
+	public Base(String name) {
+		this.name = name;
 	}
+
 	@Override
-	public String toString(){
-		return String.format("(%s)",name);
+	public String toString() {
+		return String.format("(%s)", name);
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -15,6 +17,7 @@ public class Base extends Compound {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

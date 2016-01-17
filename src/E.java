@@ -1,13 +1,12 @@
-
-public class E extends Compound{
+public class E extends Compound {
 	public final Compound of;
-	
-	public E(Compound of){
-		this.of=of;
+
+	public E(Compound of) {
+		this.of = of;
 	}
-	
-	public String toString(){
-		return String.format("E"+of);
+
+	public String toString() {
+		return String.format("E" + of);
 	}
 
 	@Override

@@ -1,19 +1,22 @@
 import java.util.HashSet;
-public class R extends Compound{
+
+public class R extends Compound {
 	private Compound inner;
-	
-	public R(Compound inner){
-		this.inner=inner;
+
+	public R(Compound inner) {
+		this.inner = inner;
 	}
-	
+
 	@Override
-	public boolean react(HashSet<Compound> ids){
+	public boolean react(HashSet<Compound> ids) {
 		return ids.remove(inner);
 	}
+
 	@Override
-	public String toString(){
-		return "R"+inner.toString();
+	public String toString() {
+		return "R" + inner.toString();
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -21,6 +24,7 @@ public class R extends Compound{
 		result = prime * result + ((inner == null) ? 0 : inner.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
