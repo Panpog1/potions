@@ -64,6 +64,9 @@ public class Main {
 	}
 
 	private static Compound parse(String s) {
+		s = numbersToLetters(s);
+		if (s == null)
+			return null;
 		if (s.startsWith("E")) {
 			Compound inner = parse(s.substring(1));
 			return inner == null ? null : (new E(inner));
@@ -79,5 +82,32 @@ public class Main {
 			return inner == null ? null : (new R(inner));
 		}
 		return null;
+	}
+
+	/**
+	 * @param s
+	 * @return
+	 */
+	private static String numbersToLetters(String s) {
+		if (Character.isDigit(s.charAt(0))) {
+			boolean failure = true;
+			for (int i = 1; i < s.length(); i++) {
+				if (!Character.isDigit(s.charAt(i))) {
+					String prefix = "";
+					int times = Integer.parseInt(s.substring(0, i)) - 1;
+					s = s.substring(i);
+					String first = s.substring(0, 1);
+					for (int j = 0; j < times; j++) {
+						prefix += first;
+					}
+					failure = false;
+					s = prefix + s;
+					break;
+				}
+			}
+			if (failure)
+				return null;
+		}
+		return s;
 	}
 }
