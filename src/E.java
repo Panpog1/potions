@@ -5,8 +5,8 @@ public class E extends Compound {
 		this.of = of;
 	}
 
-	public String toString() {
-		return String.format("E" + of);
+	public String toStringSimple() {
+		return String.format("E" + of.toStringSimple());
 	}
 
 	@Override

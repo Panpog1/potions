@@ -7,7 +7,7 @@ public class Ae extends Compound {
 	}
 
 	@Override
-	public String toString() {
+	public String toStringSimple() {
 		return "Ae";
 	}
 

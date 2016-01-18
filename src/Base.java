@@ -6,7 +6,7 @@ public class Base extends Compound {
 	}
 
 	@Override
-	public String toString() {
+	public String toStringSimple() {
 		return String.format("(%s)", name);
 	}
 

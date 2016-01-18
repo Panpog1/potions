@@ -12,8 +12,8 @@ public class R extends Compound {
 		return ids.remove(inner);
 	}
 
-	@Override
-	public String toString() {
+	
+	public String toStringSimple() {
 		return "R" + inner.toString();
 	}
 
