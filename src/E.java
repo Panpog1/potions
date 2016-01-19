@@ -1,19 +1,19 @@
 public class E extends Compound {
-	public final Compound of;
+	public final Compound inner;
 
-	public E(Compound of) {
-		this.of = of;
+	public E(Compound inner) {
+		this.inner = inner;
 	}
 
 	public String toStringSimple() {
-		return String.format("E" + of.toStringSimple());
+		return String.format("E" + inner.toStringSimple());
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((of == null) ? 0 : of.hashCode());
+		result = prime * result + ((inner == null) ? 0 : inner.hashCode());
 		return result;
 	}
 
@@ -26,10 +26,10 @@ public class E extends Compound {
 		if (getClass() != obj.getClass())
 			return false;
 		E other = (E) obj;
-		if (of == null) {
-			if (other.of != null)
+		if (inner == null) {
+			if (other.inner != null)
 				return false;
-		} else if (!of.equals(other.of))
+		} else if (!inner.equals(other.inner))
 			return false;
 		return true;
 	}

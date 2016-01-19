@@ -14,7 +14,7 @@ public class R extends Compound {
 
 	
 	public String toStringSimple() {
-		return "R" + inner.toString();
+		return "R" + inner.toStringSimple();
 	}
 
 	@Override
