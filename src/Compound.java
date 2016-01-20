@@ -9,10 +9,16 @@ public abstract class Compound {
 	 * @return all if no reactions are detected else a new List containing the
 	 *         compounds after reaction.
 	 */
+	private int timeToLive = 0;
+	public boolean stable = true;
+
 	public abstract String toStringSimple();
 
 	public String toString() {
 		String s = toStringSimple();
+
+		for (int i = 0; i < timeToLive; i++)
+			s = "U" + s;
 		List<String> tokens = new ArrayList<String>();
 		int i = 0;
 		// Separate the string into tokens. (foo) becomes [(foo, )
@@ -40,7 +46,7 @@ public abstract class Compound {
 				if (count == 1) {
 					r += last;
 				} else {
-					r += count+last;
+					r += count + last;
 				}
 				last = next;
 				count = 1;
@@ -49,11 +55,51 @@ public abstract class Compound {
 		if (count == 1) {
 			return r + last;
 		} else {
-			return r + count+last;
+			return r + count + last;
 		}
 	}
 
 	public boolean react(HashSet<Compound> idgs) {
 		return false;
+	}
+
+	/**
+	 * @return weather it survived
+	 */
+	public boolean tick() {
+		if (stable) {
+			return true;
+		}
+		return --timeToLive > 0;
+	}
+
+	public void incrementTimeToLive() {
+		stable = false;
+		timeToLive++;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (stable ? 1231 : 1237);
+		result = prime * result + timeToLive;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Compound other = (Compound) obj;
+		if (stable != other.stable)
+			return false;
+		if (timeToLive != other.timeToLive)
+			return false;
+		return true;
 	}
 }

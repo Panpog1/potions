@@ -6,7 +6,7 @@ public class E extends Compound {
 	}
 
 	public String toStringSimple() {
-		return String.format("E" + inner.toStringSimple());
+		return String.format("E" + inner.toString());
 	}
 
 	@Override
@@ -21,11 +21,13 @@ public class E extends Compound {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (obj == null || !super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		E other = (E) obj;
+		if (!super.equals(other))
+			return false;
 		if (inner == null) {
 			if (other.inner != null)
 				return false;

@@ -1,9 +1,8 @@
 import java.util.HashSet;
 
 public class Ae extends Compound {
-	static Ae ae = new Ae();
 
-	private Ae() {
+	public Ae() {
 	}
 
 	@Override

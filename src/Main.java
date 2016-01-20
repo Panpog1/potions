@@ -6,21 +6,19 @@ public class Main {
 	private static HashSet<Compound> idgs = new HashSet<Compound>();
 
 	public static void main(String[] args) {
+		int skipped = 0;
 		for (String arg : args) {
-			int skipped = 0;
-			Compound c = parse(arg);
-			if (c == null) {
+			boolean c = add(arg);
+			if (!c) {
 				System.out.printf("I don't recognise the ingridient %s.\nSkiping it.\n", arg);
 				skipped++;
-			} else {
-				add(c);
 			}
-			if (skipped == 0) {
-				System.out.printf("All ingidients sucsesfully added");
-			}
-			if (skipped > 1) {
-				System.out.printf("%d ingridients skiped\n", skipped);
-			}
+		}
+		if (skipped == 0) {
+			System.out.printf("All ingidients sucsesfully added");
+		}
+		if (skipped > 1) {
+			System.out.printf("%d ingridients skiped\n", skipped);
 		}
 		while (true) {
 			if (!idgs.isEmpty()) {
@@ -33,16 +31,29 @@ public class Main {
 			System.out.print("Add ad an ingredient: ");
 			// Idg is ingridient
 			String nextLine = in.nextLine();
-			Compound nextIdg = parse(nextLine);
-			if (nextIdg == null) {
+			boolean c = add(nextLine);
+			if (!c) {
 				System.out.println("I don't recognise that ingridient");
-			} else {
-				add(nextIdg);
 			}
 		}
 	}
 
-	private static void add(Compound nextIdg) {
+	private static boolean add(String next) {
+		if (next.equals("T")) {
+			// because the equality relations change we need a new hash set.
+			HashSet<Compound> newIdgs = new HashSet<Compound>();
+			for (Compound idg : idgs) {
+				if (idg.tick()) {
+					newIdgs.add(idg);
+				}
+			}
+			idgs = newIdgs;
+			return true;
+		}
+		Compound nextIdg = parse(next);
+		if (nextIdg == null) {
+			return false;
+		}
 		idgs.add(nextIdg);
 		boolean done = false;
 		while (!done) {
@@ -54,14 +65,21 @@ public class Main {
 				}
 			}
 		}
+		return true;
 	}
 
 	private static Compound parse(String s) {
+		//T is in Add
 		if (s.isEmpty())
 			return null;
 		s = numbersToLetters(s);
 		if (s == null)
 			return null;
+		if (s.startsWith("U")) {
+			Compound idg = parse(s.substring(1));
+			idg.incrementTimeToLive();
+			return idg;
+		}
 		if (s.startsWith("E")) {
 			Compound inner = parse(s.substring(1));
 			return inner == null ? null : (new E(inner));
@@ -70,7 +88,7 @@ public class Main {
 			return new Base(s.substring(1, s.length() - 1));
 		}
 		if (s.equals("Ae")) {
-			return Ae.ae;
+			return new Ae();
 		}
 		if (s.startsWith("R")) {
 			Compound inner = parse(s.substring(1));
