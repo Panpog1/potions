@@ -23,17 +23,19 @@ public class Main {
 			}
 		}
 		while (true) {
-			if (!idgs.isEmpty())
+			if (!idgs.isEmpty()) {
 				System.out.print("Cauldron contains: ");
-			for (Compound idg : idgs) {
-				System.out.print(idg + " ");
+				for (Compound idg : idgs) {
+					System.out.print(idg + " ");
+				}
+				System.out.println();
 			}
-			System.out.print("\nAdd ad an ingredient: ");
+			System.out.print("Add ad an ingredient: ");
 			// Idg is ingridient
 			String nextLine = in.nextLine();
 			Compound nextIdg = parse(nextLine);
 			if (nextIdg == null) {
-				System.out.print("I don't recognise that ingridient");
+				System.out.println("I don't recognise that ingridient");
 			} else {
 				add(nextIdg);
 			}
