@@ -4,6 +4,7 @@ import java.util.HashSet;
 public class Main {
 	private static Scanner in = new Scanner(System.in);
 	private static HashSet<Compound> idgs = new HashSet<Compound>();
+	private static boolean H;// Include hash code. for debugging
 
 	public static void main(String[] args) {
 		if (args.length != 0) {
@@ -28,7 +29,8 @@ public class Main {
 			} else {
 				System.out.print("Cauldron contains: ");
 				for (Compound idg : idgs) {
-					System.out.print(idg + " ");
+					String prefix = (H ? Integer.toHexString(idg.hashCode()) + ":" : "");
+					System.out.print(prefix + idg + " ");
 				}
 				System.out.println();
 			}
@@ -52,6 +54,10 @@ public class Main {
 				}
 			}
 			idgs = newIdgs;
+			return true;
+		}
+		if (next.equals("H")) {
+			H = !H;
 			return true;
 		}
 		Compound nextIdg = parse(next);
@@ -81,7 +87,7 @@ public class Main {
 			return null;
 		if (s.startsWith("U")) {
 			Compound inner = parse(s.substring(1));
-			if(inner!=null)
+			if (inner != null)
 				inner.incrementTimeToLive();
 			return inner;
 		}

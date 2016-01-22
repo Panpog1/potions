@@ -12,7 +12,8 @@ public class E extends Compound {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = 2; // to avoid hash collision of Ex with Rx
+		result = prime * result + super.hashCode() + 1;
 		result = prime * result + ((inner == null) ? 0 : inner.hashCode());
 		return result;
 	}
