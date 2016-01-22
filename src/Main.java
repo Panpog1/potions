@@ -6,22 +6,26 @@ public class Main {
 	private static HashSet<Compound> idgs = new HashSet<Compound>();
 
 	public static void main(String[] args) {
-		int skipped = 0;
-		for (String arg : args) {
-			boolean c = add(arg);
-			if (!c) {
-				System.out.printf("I don't recognise the ingridient %s.\nSkiping it.\n", arg);
-				skipped++;
+		if (args.length != 0) {
+			int skipped = 0;
+			for (String arg : args) {
+				boolean c = add(arg);
+				if (!c) {
+					System.out.printf("I don't recognise the ingridient %s.\nSkiping it.\n", arg);
+					skipped++;
+				}
+			}
+			if (skipped == 0) {
+				System.out.printf("All ingidients sucsesfully added");
+			}
+			if (skipped > 1) {
+				System.out.printf("%d ingridients skiped\n", skipped);
 			}
 		}
-		if (skipped == 0) {
-			System.out.printf("All ingidients sucsesfully added");
-		}
-		if (skipped > 1) {
-			System.out.printf("%d ingridients skiped\n", skipped);
-		}
 		while (true) {
-			if (!idgs.isEmpty()) {
+			if (idgs.isEmpty()) {
+				System.out.println("Cauldron is empty");
+			} else {
 				System.out.print("Cauldron contains: ");
 				for (Compound idg : idgs) {
 					System.out.print(idg + " ");
@@ -69,16 +73,17 @@ public class Main {
 	}
 
 	private static Compound parse(String s) {
-		//T is in Add
+		// T is in Add
 		if (s.isEmpty())
 			return null;
 		s = numbersToLetters(s);
 		if (s == null)
 			return null;
 		if (s.startsWith("U")) {
-			Compound idg = parse(s.substring(1));
-			idg.incrementTimeToLive();
-			return idg;
+			Compound inner = parse(s.substring(1));
+			if(inner!=null)
+				inner.incrementTimeToLive();
+			return inner;
 		}
 		if (s.startsWith("E")) {
 			Compound inner = parse(s.substring(1));
