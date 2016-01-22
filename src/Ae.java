@@ -14,7 +14,7 @@ public class Ae extends Compound {
 	public boolean react(HashSet<Compound> idgs) {
 		for (Compound c : idgs) {
 			if (c instanceof E) {
-				Compound newC = ((E) c).inner;
+				Compound newC = ((E) c).getInner();
 				idgs.remove(c);
 				idgs.add(newC);
 				return true;

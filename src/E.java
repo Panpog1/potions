@@ -1,8 +1,12 @@
 public class E extends Compound {
-	public final Compound inner;
+	private final Compound inner;
 
 	public E(Compound inner) {
 		this.inner = inner;
+	}
+
+	public Compound getInner() {
+		return inner;
 	}
 
 	public String toStringSimple() {

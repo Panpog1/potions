@@ -56,6 +56,12 @@ public class Main {
 			idgs = newIdgs;
 			return true;
 		}
+		if (next.equals("S")) {
+			for (Compound idg:idgs){
+				idg.stabilize();
+			}
+			return true;
+		}
 		if (next.equals("H")) {
 			H = !H;
 			return true;

@@ -10,7 +10,7 @@ public abstract class Compound {
 	 *         compounds after reaction.
 	 */
 	private int timeToLive = 0;
-	public boolean stable = true;
+	private boolean stable = true;
 
 	public abstract String toStringSimple();
 
@@ -76,6 +76,11 @@ public abstract class Compound {
 	public void incrementTimeToLive() {
 		stable = false;
 		timeToLive++;
+	}
+
+	public void stabilize() {
+		timeToLive = 0;
+		stable = true;
 	}
 
 	@Override
