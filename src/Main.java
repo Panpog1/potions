@@ -57,7 +57,7 @@ public class Main {
 			return true;
 		}
 		if (next.equals("S")) {
-			for (Compound idg:idgs){
+			for (Compound idg : idgs) {
 				idg.stabilize();
 			}
 			return true;
@@ -102,7 +102,10 @@ public class Main {
 			return inner == null ? null : (new E(inner));
 		}
 		if (s.startsWith("(") && s.endsWith(")")) {
-			return new Base(s.substring(1, s.length() - 1));
+			s = s.substring(1, s.length() - 1);
+			if (s.contains("(") || s.contains(")"))
+				return null;
+			return new Base(s);
 		}
 		if (s.equals("Ae")) {
 			return new Ae();
