@@ -1,4 +1,4 @@
-import java.util.HashSet;
+import java.util.Set;
 
 public class R extends Compound {
 	private Compound inner;
@@ -8,13 +8,12 @@ public class R extends Compound {
 	}
 
 	@Override
-	public boolean react(HashSet<Compound> ids) {
+	public boolean react(Set<Compound> ids) {
 		return ids.remove(inner);
 	}
 
-	
 	public String toStringSimple() {
-		return "R" + inner.toString();
+		return "R" + inner.toStringNoNums();
 	}
 
 	@Override

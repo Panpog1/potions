@@ -1,4 +1,4 @@
-import java.util.HashSet;
+import java.util.Set;
 
 public class Ae extends Compound {
 
@@ -11,7 +11,7 @@ public class Ae extends Compound {
 	}
 
 	@Override
-	public boolean react(HashSet<Compound> idgs) {
+	public boolean react(Set<Compound> idgs) {
 		for (Compound c : idgs) {
 			if (c instanceof E) {
 				Compound newC = ((E) c).getInner();

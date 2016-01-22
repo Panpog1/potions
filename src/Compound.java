@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 
 public abstract class Compound {
@@ -14,11 +14,18 @@ public abstract class Compound {
 
 	public abstract String toStringSimple();
 
-	public String toString() {
+	public String toStringNoNums() {
 		String s = toStringSimple();
-
 		for (int i = 0; i < timeToLive; i++)
 			s = "U" + s;
+		return s;
+	}
+	
+	public String toString(){
+		return letersToNumbers(toStringNoNums());
+	}
+
+	static String letersToNumbers(String s) {
 		List<String> tokens = new ArrayList<String>();
 		int i = 0;
 		// Separate the string into tokens. (foo) becomes [(foo, )
@@ -59,7 +66,7 @@ public abstract class Compound {
 		}
 	}
 
-	public boolean react(HashSet<Compound> idgs) {
+	public boolean react(Set<Compound> idgs) {
 		return false;
 	}
 
@@ -73,7 +80,7 @@ public abstract class Compound {
 		return --timeToLive > 0;
 	}
 
-	public void incrementTimeToLive() {
+	public void applyU() {
 		stable = false;
 		timeToLive++;
 	}

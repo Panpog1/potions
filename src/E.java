@@ -10,7 +10,7 @@ public class E extends Compound {
 	}
 
 	public String toStringSimple() {
-		return String.format("E" + inner.toString());
+		return String.format("E" + inner.toStringNoNums());
 	}
 
 	@Override
