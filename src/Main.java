@@ -11,15 +11,15 @@ public class Main {
 			for (String arg : args) {
 				boolean c = cauldron.add(arg);
 				if (!c) {
-					System.out.printf("I don't recognise the ingridient %s.\nSkiping it.\n", arg);
+					System.out.printf("I don't recognize the ingredient %s.\nSkiping it.\n", arg);
 					skipped++;
 				}
 			}
 			if (skipped == 0) {
-				System.out.printf("All ingidients sucsesfully added");
+				System.out.printf("All ingredients successfully added");
 			}
 			if (skipped > 1) {
-				System.out.printf("%d ingridients skiped\n", skipped);
+				System.out.printf("%d ingredients skipped\n", skipped);
 			}
 		}
 		while (true) {
@@ -28,7 +28,7 @@ public class Main {
 			String nextLine = in.nextLine();
 			boolean c = cauldron.add(nextLine);
 			if (!c) {
-				System.out.println("I don't recognise that ingridient");
+				System.out.println("I don't recognize that ingredient");
 			}
 		}
 	}
