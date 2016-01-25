@@ -2,29 +2,28 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Cauldron {
-	public Set<Compound> idgs;
+	public Set<Compound> idgs = new HashSet<Compound>();
 	public boolean H;
 
-	public Cauldron(Set<Compound> idgs) {
-		this.idgs = idgs;
-	}
-
 	static Compound parse(String s) {
-		// T is in Add
+		// T S and H are in Add
 		if (s.isEmpty())
 			return null;
-		s = Cauldron.numbersToLetters(s);
+		s = numbersToLetters(s);
 		if (s == null)
 			return null;
 		if (s.startsWith("U")) {
 			Compound inner = parse(s.substring(1));
-			if (inner != null)
-				inner.applyU();
+			if (inner == null)
+				return null;
+			inner.applyU();
 			return inner;
 		}
 		if (s.startsWith("E")) {
 			Compound inner = parse(s.substring(1));
-			return inner == null ? null : (new E(inner));
+			if (inner == null)
+				return inner;
+			return new E(inner);
 		}
 		if (s.startsWith("(") && s.endsWith(")")) {
 			s = s.substring(1, s.length() - 1);
@@ -37,7 +36,9 @@ public class Cauldron {
 		}
 		if (s.startsWith("R")) {
 			Compound inner = parse(s.substring(1));
-			return inner == null ? null : (new R(inner));
+			if (inner == null)
+				return null;
+			return new R(inner);
 		}
 		return null;
 	}
