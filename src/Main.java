@@ -24,7 +24,7 @@ public class Main {
 		}
 		while (true) {
 			System.out.println(cauldron);
-			System.out.print("Add ad an ingredient: ");
+			System.out.print("Add an ingredient: ");
 			String nextLine = in.nextLine();
 			boolean c = cauldron.add(nextLine);
 			if (!c) {
