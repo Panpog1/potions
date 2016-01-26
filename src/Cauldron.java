@@ -5,45 +5,46 @@ public class Cauldron {
 	public Set<Compound> idgs = new HashSet<Compound>();
 	public boolean H;
 
-	static Compound parse(String s) {
+	static Compound parse(String s) throws CPE {
+		return parse(s, s, 0);
+	}
+
+	static Compound parse(String all, String s, int offset) throws CPE {
 		// T S and H are in Add
 		if (s.isEmpty())
-			return null;
+			throw new CPE(all, offset);
 		s = numbersToLetters(s);
 		if (s == null)
-			return null;
+			throw new CPE(all, offset);
 		if (s.startsWith("U")) {
-			Compound inner = parse(s.substring(1));
-			if (inner == null)
-				return null;
+			Compound inner = parse(all, s.substring(1), offset + 1);
 			inner.applyU();
 			return inner;
 		}
 		if (s.startsWith("E")) {
-			Compound inner = parse(s.substring(1));
-			if (inner == null)
-				return inner;
+			Compound inner = parse(all, s.substring(1), offset + 1);
 			return new E(inner);
 		}
-		if (s.startsWith("(") && s.endsWith(")")) {
+		if (s.startsWith("\"") && s.endsWith("\"")) {
 			s = s.substring(1, s.length() - 1);
-			if (s.contains("(") || s.contains(")"))
-				return null;
+			offset++;
+			if (s.contains("\""))
+				throw new CPE(all, s.indexOf("\""));
+			if (s.contains(" "))
+				throw new CPE(all, s.indexOf(" "));
 			return new Base(s);
 		}
 		if (s.equals("Ae")) {
 			return new Ae();
 		}
 		if (s.startsWith("R")) {
-			Compound inner = parse(s.substring(1));
-			if (inner == null)
-				return null;
+			Compound inner = parse(all, s.substring(1), offset + 1);
 			return new R(inner);
 		}
-		return null;
+		throw new CPE(all, offset);
 	}
 
-	boolean add(String next) {
+	boolean add(String next) throws CPE {
 		if (next.equals("T")) {
 			// because the equality relations change we need a new hash set.
 			Set<Compound> newIdgs = new HashSet<Compound>();
@@ -65,10 +66,8 @@ public class Cauldron {
 			H = !H;
 			return true;
 		}
-		Compound nextIdg = parse(next);
-		if (nextIdg == null) {
-			return false;
-		}
+		Compound nextIdg;
+		nextIdg = parse(next);
 		idgs.add(nextIdg);
 		boolean done = false;
 		while (!done) {
