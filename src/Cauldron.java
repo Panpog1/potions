@@ -13,7 +13,7 @@ public class Cauldron {
 		// T S and H are in Add
 		if (s.isEmpty())
 			throw new CPE(all, offset);
-		s = numbersToLetters(s);
+		s = numbersToLetters(s.trim());
 		if (s == null)
 			throw new CPE(all, offset);
 		if (s.startsWith("U")) {
@@ -41,7 +41,28 @@ public class Cauldron {
 			Compound inner = parse(all, s.substring(1), offset + 1);
 			return new R(inner);
 		}
+		if (s.startsWith("If(")) {
+			offset += 3;
+			if (!s.endsWith(")"))
+				throw new CPE(all, offset);
+			s = s.substring(3, s.length() - 1);
+			int i = 0;
+			boolean fail = true;
+			while (i < s.length()) {
+				if (s.charAt(i) == ',') {
+					fail = false;
+					break;
+				}
+				i++;
+			}
+			if (fail)
+				throw new CPE(all, offset);
+			Compound condition = parse(all,s.substring(0, i),offset);
+			Compound body = parse(all,s.substring(i + 1),offset+i+1);
+			return new If(condition, body);
+		}
 		throw new CPE(all, offset);
+
 	}
 
 	boolean add(String next) throws CPE {
