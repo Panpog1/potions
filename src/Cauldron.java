@@ -47,18 +47,26 @@ public class Cauldron {
 				throw new CPE(all, offset);
 			s = s.substring(3, s.length() - 1);
 			int i = 0;
+			int parens = 0;
 			boolean fail = true;
 			while (i < s.length()) {
-				if (s.charAt(i) == ',') {
+				if (s.charAt(i) == ',' && parens == 0) {
 					fail = false;
 					break;
+				} else if (s.charAt(i) == '(') {
+					parens++;
+				} else if (s.charAt(i) == ')') {
+					parens--;
+					if (parens > 0) {
+						throw new CPE(all, offset + i);
+					}
 				}
 				i++;
 			}
 			if (fail)
 				throw new CPE(all, offset);
-			Compound condition = parse(all,s.substring(0, i),offset);
-			Compound body = parse(all,s.substring(i + 1),offset+i+1);
+			Compound condition = parse(all, s.substring(0, i), offset);
+			Compound body = parse(all, s.substring(i + 1), offset + i + 1);
 			return new If(condition, body);
 		}
 		throw new CPE(all, offset);
