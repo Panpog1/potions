@@ -1,3 +1,5 @@
+package io.github.panpog1.potions;
+
 public class Base extends Compound {
 	public String name;
 

@@ -1,3 +1,5 @@
+package io.github.panpog1.potions;
+
 import java.util.Scanner;
 
 public class Main {
@@ -15,7 +17,7 @@ public class Main {
 			} catch (CPE e) {
 				System.out.println("I don't recognize that ingredient");
 				System.out.println(input);
-				for(int i=0;i<e.getErrorOffset();i++)
+				for (int i = 0; i < e.getErrorOffset(); i++)
 					System.out.print(" ");
 				System.out.println("^");
 			}

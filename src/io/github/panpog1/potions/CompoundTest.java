@@ -1,3 +1,5 @@
+package io.github.panpog1.potions;
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;

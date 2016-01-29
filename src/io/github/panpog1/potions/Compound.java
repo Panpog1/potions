@@ -1,3 +1,5 @@
+package io.github.panpog1.potions;
+
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.List;

@@ -1,3 +1,5 @@
+package io.github.panpog1.potions;
+
 public class E extends Compound {
 	private final Compound inner;
 

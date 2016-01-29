@@ -1,9 +1,11 @@
+package io.github.panpog1.potions;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class Cauldron {
 	public Set<Compound> idgs = new HashSet<Compound>();
-	public boolean H;
+	public boolean h;
 
 	static Compound parse(String s) throws CPE {
 		return parse(s, s, 0);
@@ -92,7 +94,7 @@ public class Cauldron {
 			return true;
 		}
 		if (next.equals("H")) {
-			H = !H;
+			h = !h;
 			return true;
 		}
 		Compound nextIdg;
@@ -117,7 +119,7 @@ public class Cauldron {
 		}
 		String r = "Cauldron contains: ";
 		for (Compound idg : idgs) {
-			String prefix = (H ? Integer.toHexString(idg.hashCode()) + ":" : "");
+			String prefix = (h ? Integer.toHexString(idg.hashCode()) + ":" : "");
 			r += prefix + idg + " ";
 		}
 		return r;

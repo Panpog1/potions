@@ -1,3 +1,5 @@
+package io.github.panpog1.potions;
+
 import java.util.Set;
 
 public class R extends Compound {

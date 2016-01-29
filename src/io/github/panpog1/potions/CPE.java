@@ -1,3 +1,5 @@
+package io.github.panpog1.potions;
+
 import java.text.ParseException;
 
 public class CPE extends ParseException {
