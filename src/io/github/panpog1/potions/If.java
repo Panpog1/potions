@@ -1,7 +1,5 @@
 package io.github.panpog1.potions;
 
-import java.util.Set;
-
 public class If extends Compound {
 
 	private Compound condition;
@@ -18,11 +16,11 @@ public class If extends Compound {
 	}
 
 	@Override
-	public boolean react(Set<Compound> idgs) {
-		if (!idgs.contains(condition))
+	public boolean react(Cauldron cauldron) {
+		if (!cauldron.idgs.contains(condition))
 			return false;
-		idgs.remove(this);
-		idgs.add(body);
+		cauldron.idgs.remove(this);
+		cauldron.idgs.add(body);
 		return true;
 	}
 

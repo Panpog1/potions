@@ -1,7 +1,5 @@
 package io.github.panpog1.potions;
 
-import java.util.Set;
-
 public class Ae extends Compound {
 
 	public Ae() {
@@ -13,12 +11,12 @@ public class Ae extends Compound {
 	}
 
 	@Override
-	public boolean react(Set<Compound> idgs) {
-		for (Compound c : idgs) {
+	public boolean react(Cauldron cauldron) {
+		for (Compound c : cauldron.idgs) {
 			if (c instanceof E) {
 				Compound newC = ((E) c).getInner();
-				idgs.remove(c);
-				idgs.add(newC);
+				cauldron.idgs.remove(c);
+				cauldron.idgs.add(newC);
 				return true;
 			}
 		}

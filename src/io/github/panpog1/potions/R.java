@@ -1,7 +1,5 @@
 package io.github.panpog1.potions;
 
-import java.util.Set;
-
 public class R extends Compound {
 	private Compound inner;
 
@@ -10,8 +8,8 @@ public class R extends Compound {
 	}
 
 	@Override
-	public boolean react(Set<Compound> ids) {
-		return ids.remove(inner);
+	public boolean react(Cauldron cauldron) {
+		return cauldron.idgs.remove(inner);
 	}
 
 	public String toStringSimple() {

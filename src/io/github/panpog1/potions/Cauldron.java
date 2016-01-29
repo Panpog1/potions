@@ -104,7 +104,7 @@ public class Cauldron {
 		while (!done) {
 			done = true;
 			for (Compound idg : idgs) {
-				if (idg.react(idgs)) {
+				if (idg.react(this)) {
 					done = false;
 					break;
 				}

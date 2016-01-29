@@ -1,7 +1,6 @@
 package io.github.panpog1.potions;
 
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.List;
 
 public abstract class Compound {
@@ -87,7 +86,7 @@ public abstract class Compound {
 	 *         compounds after reaction.
 	 */
 
-	public boolean react(Set<Compound> idgs) {
+	public boolean react(Cauldron idgs) {
 		return false;
 	}
 
