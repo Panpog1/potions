@@ -82,7 +82,7 @@ public abstract class Compound {
 	 *         compounds after reaction.
 	 */
 
-	public boolean react(Cauldron cauldron){
+	public boolean react(Cauldron cauldron) {
 		return false;
 	}
 
@@ -130,4 +130,5 @@ public abstract class Compound {
 			return false;
 		return true;
 	}
+
 }

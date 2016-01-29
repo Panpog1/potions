@@ -45,6 +45,9 @@ public class Cauldron {
 		if (s.equals("Ah")) {
 			return new Ah();
 		}
+		if (s.equals("S")) {
+			return new S();
+		}
 		if (s.startsWith("R")) {
 			Compound inner = parse(all, s.substring(1), offset + 1);
 			return new R(inner);
@@ -93,15 +96,6 @@ public class Cauldron {
 			idgs = newIdgs;
 			return true;
 		}
-		if (next.equals("S")) {
-			Set<Compound> newIdgs = new HashSet<Compound>();
-			for (Compound idg : idgs) {
-				idg.stabilize();
-				newIdgs.add(idg);
-			}
-			idgs = newIdgs;
-			return true;
-		}
 		Compound nextIdg;
 		nextIdg = parse(next);
 		idgs.add(nextIdg);
@@ -114,8 +108,8 @@ public class Cauldron {
 		while (!done) {
 			done = true;
 			for (Compound idg : idgs) {
-				if (idg.react(this)) {
-					done = false;
+				if(idg.react(this)){
+					done=false;
 					break;
 				}
 			}
