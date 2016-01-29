@@ -39,6 +39,12 @@ public class Cauldron {
 		if (s.equals("Ae")) {
 			return new Ae();
 		}
+		if (s.equals("H")) {
+			return new H();
+		}
+		if (s.equals("Ah")) {
+			return new Ah();
+		}
 		if (s.startsWith("R")) {
 			Compound inner = parse(all, s.substring(1), offset + 1);
 			return new R(inner);
@@ -88,18 +94,22 @@ public class Cauldron {
 			return true;
 		}
 		if (next.equals("S")) {
+			Set<Compound> newIdgs = new HashSet<Compound>();
 			for (Compound idg : idgs) {
 				idg.stabilize();
+				newIdgs.add(idg);
 			}
-			return true;
-		}
-		if (next.equals("H")) {
-			h = !h;
+			idgs = newIdgs;
 			return true;
 		}
 		Compound nextIdg;
 		nextIdg = parse(next);
 		idgs.add(nextIdg);
+		FullyReact();
+		return true;
+	}
+
+	void FullyReact() {
 		boolean done = false;
 		while (!done) {
 			done = true;
@@ -110,7 +120,6 @@ public class Cauldron {
 				}
 			}
 		}
-		return true;
 	}
 
 	public String toString() {

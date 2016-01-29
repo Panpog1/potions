@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Compound {
-	static private class Token {
+	private static class Token {
 		public String s;
 		public int times = 1;
 
@@ -53,7 +53,6 @@ public abstract class Compound {
 
 	/**
 	 * @param s
-	 * @return
 	 */
 	private static List<Token> tokenize(String s) {
 		List<Token> tokens = new ArrayList<Token>();
@@ -61,10 +60,7 @@ public abstract class Compound {
 		// Separate the string into tokens.
 		while (i < s.length()) {
 			String t = "" + s.charAt(i++);
-			if (t.equals(")") || t.equals((")"))) {
-				tokens.add(new Token(t));
-				i++;
-			} else if (t.equals("\"")) {
+			if (t.equals("\"")) {
 				while (i < s.length() && s.charAt(i) != '"') {
 					t += s.charAt(i++);
 				}
@@ -86,7 +82,7 @@ public abstract class Compound {
 	 *         compounds after reaction.
 	 */
 
-	public boolean react(Cauldron idgs) {
+	public boolean react(Cauldron cauldron){
 		return false;
 	}
 

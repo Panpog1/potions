@@ -12,7 +12,7 @@ public class If extends Compound {
 
 	@Override
 	public String toStringSimple() {
-		return String.format("If(%s,%s)", condition.toStringSimple(), body.toStringSimple());
+		return String.format("If(%s,%s)", condition.toStringNoNums(), body.toStringNoNums());
 	}
 
 	@Override

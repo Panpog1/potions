@@ -2,9 +2,6 @@ package io.github.panpog1.potions;
 
 public class Ae extends Compound {
 
-	public Ae() {
-	}
-
 	@Override
 	public String toStringSimple() {
 		return "Ae";
