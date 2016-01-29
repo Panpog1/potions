@@ -3,12 +3,21 @@ import java.util.Set;
 import java.util.List;
 
 public abstract class Compound {
-	/**
-	 * @param idgs
-	 *          All compounds to check reactivity with including its self
-	 * @return all if no reactions are detected else a new List containing the
-	 *         compounds after reaction.
-	 */
+	static private class Token {
+		public String s;
+		public int times = 1;
+
+		public Token(String s) {
+			this.s = s;
+		}
+
+		public String toString() {
+			if (times == 1)
+				return s;
+			return times + s;
+		}
+	}
+
 	private int timeToLive = 0;
 	private boolean stable = true;
 
@@ -26,71 +35,55 @@ public abstract class Compound {
 	}
 
 	static String letersToNumbers(String s) {
-		System.out.println(s);
-		List<String> tokens = tokenize(s);
-		for (String token : tokens)
-			System.out.println(token);
-		System.out.println("End of tokens");
-		int count = 1;
-		String r = "";
-		String last = tokens.get(0);
-		for (int j = 1; j < tokens.size(); j++) {
-			String next = tokens.get(j);
-			if (next.equals(")") || next.equals("(")) {
-				r += next;
-				if (count == 1) {
-					r += last;
-				} else {
-					r += count + last;
-				}
-				last = next;
-			} else if (next.equals(last)) {
-				count++;
-			} else {
-				if (count == 1) {
-					r += last;
-				} else {
-					r += count + last;
-				}
-				last = next;
-				count = 1;
+		List<Token> tokens = tokenize(s);
+		for (int i = tokens.size() - 1; i > 0; i--) {
+			boolean numberable = tokens.get(i).s.matches("[a-zA-Z]+");
+			if (numberable && tokens.get(i).s.equals(tokens.get(i - 1).s)) {
+				tokens.get(i - 1).times += tokens.get(i).times;
+				tokens.remove(i);
 			}
-			System.out.println(r);
 		}
-		if (count == 1) {
-			return r + last;
-		} else {
-			return r + count + last;
+		String r = "";
+		for (Token t : tokens) {
+			r += t;
 		}
+		return r;
 	}
 
 	/**
 	 * @param s
 	 * @return
 	 */
-	private static List<String> tokenize(String s) {
-		List<String> tokens = new ArrayList<String>();
+	private static List<Token> tokenize(String s) {
+		List<Token> tokens = new ArrayList<Token>();
 		int i = 0;
 		// Separate the string into tokens.
 		while (i < s.length()) {
-			String token = "" + s.charAt(i++);
-			if (token.equals(")") || token.equals((")"))) {
-				tokens.add(token);
+			String t = "" + s.charAt(i++);
+			if (t.equals(")") || t.equals((")"))) {
+				tokens.add(new Token(t));
 				i++;
-			} else if (token.equals("\"")) {
+			} else if (t.equals("\"")) {
 				while (i < s.length() && s.charAt(i) != '"') {
-					token += s.charAt(i++);
+					t += s.charAt(i++);
 				}
-				token += s.charAt(i++);
+				t += s.charAt(i++);
 			} else {
 				while (i < s.length() && Character.isLowerCase(s.charAt(i))) {
-					token += s.charAt(i++);
+					t += s.charAt(i++);
 				}
 			}
-			tokens.add(token);
+			tokens.add(new Token(t));
 		}
 		return tokens;
 	}
+
+	/**
+	 * @param idgs
+	 *          All compounds to check reactivity with including its self
+	 * @return idgs if no reactions are detected else a new Set containing the
+	 *         compounds after reaction.
+	 */
 
 	public boolean react(Set<Compound> idgs) {
 		return false;
