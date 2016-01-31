@@ -87,12 +87,11 @@ public class Cauldron {
 
 	}
 
-	boolean add(String next) throws CPE {
+	void add(String next) throws CPE {
 		Compound nextIdg;
 		nextIdg = parse(next);
 		idgs.add(nextIdg);
 		FullyReact();
-		return true;
 	}
 
 	void FullyReact() {
