@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Cauldron {
+	private static String[] constIdgNames = { "Ae", "T", "H", "Ah", "S" };
+	private static final String packageName = Cauldron.class.getPackage().getName();
+
 	public Set<Compound> idgs = new HashSet<Compound>();
 	public boolean h;
 
@@ -35,21 +38,6 @@ public class Cauldron {
 			if (s.contains(" "))
 				throw new CPE(all, s.indexOf(" "));
 			return new Base(s);
-		}
-		if (s.equals("Ae")) {
-			return new Ae();
-		}
-		if(s.equals("T")){
-			return new T();
-		}
-		if (s.equals("H")) {
-			return new H();
-		}
-		if (s.equals("Ah")) {
-			return new Ah();
-		}
-		if (s.equals("S")) {
-			return new S();
 		}
 		if (s.startsWith("R")) {
 			Compound inner = parse(all, s.substring(1), offset + 1);
@@ -83,8 +71,27 @@ public class Cauldron {
 			Compound body = parse(all, s.substring(i + 1), offset + i + 1);
 			return new If(condition, body);
 		}
-		throw new CPE(all, offset);
+		return checkConstIdgNames(all, s, offset);
+	}
 
+	private static Compound checkConstIdgNames(String all, String s, int offset)
+			throws CPE {
+		for (String constIdgName : constIdgNames) {
+			if (s.startsWith(constIdgName)) {
+				if (s.equals(constIdgName)) {
+					try {
+						Class<?> obj;
+						obj = Class.forName(packageName + "." + constIdgName);
+						@SuppressWarnings("unchecked")
+						Class<Compound> clazz = (Class<Compound>) obj;
+						return clazz.getConstructor().newInstance();
+					} catch (Exception e) {
+						throw new AssertionError(e);
+					}
+				}
+			}
+		}
+		throw new CPE(all, offset);
 	}
 
 	void add(String next) throws CPE {
@@ -99,8 +106,8 @@ public class Cauldron {
 		while (!done) {
 			done = true;
 			for (Compound idg : idgs) {
-				if(idg.react(this)){
-					done=false;
+				if (idg.react(this)) {
+					done = false;
 					break;
 				}
 			}
