@@ -22,7 +22,7 @@ public class Cauldron {
 		return r;
 	}
 
-	void add(String next) throws CPE {
+	void add(String next) throws CompoundParseException {
 		Compound nextIdg;
 		nextIdg = parse(next);
 		idgs.add(nextIdg);
@@ -42,17 +42,17 @@ public class Cauldron {
 		}
 	}
 
-	static Compound parse(String s) throws CPE {
+	static Compound parse(String s) throws CompoundParseException {
 		return parse(s, s, 0);
 	}
 
-	private static Compound parse(String all, String s, int offset) throws CPE {
+	private static Compound parse(String all, String s, int offset) throws CompoundParseException {
 		// T S and H are in Add
 		if (s.isEmpty())
-			throw new CPE(all, offset);
+			throw new CompoundParseException(all, offset);
 		s = numbersToLetters(s.trim());
 		if (s == null)
-			throw new CPE(all, offset);
+			throw new CompoundParseException(all, offset);
 		if (s.startsWith("U")) {
 			Compound inner = parse(all, s.substring(1), offset + 1);
 			inner.applyU();
@@ -66,9 +66,9 @@ public class Cauldron {
 			s = s.substring(1, s.length() - 1);
 			offset++;
 			if (s.contains("\""))
-				throw new CPE(all, s.indexOf("\""));
+				throw new CompoundParseException(all, s.indexOf("\""));
 			if (s.contains(" "))
-				throw new CPE(all, s.indexOf(" "));
+				throw new CompoundParseException(all, s.indexOf(" "));
 			return new Base(s);
 		}
 		if (s.startsWith("R")) {
@@ -78,7 +78,7 @@ public class Cauldron {
 		if (s.startsWith("If(")) {
 			offset += 3;
 			if (!s.endsWith(")"))
-				throw new CPE(all, offset);
+				throw new CompoundParseException(all, offset);
 			s = s.substring(3, s.length() - 1);
 			int i = 0;
 			int parens = 0;
@@ -92,13 +92,13 @@ public class Cauldron {
 				} else if (s.charAt(i) == ')') {
 					parens--;
 					if (parens > 0) {
-						throw new CPE(all, offset + i);
+						throw new CompoundParseException(all, offset + i);
 					}
 				}
 				i++;
 			}
 			if (fail)
-				throw new CPE(all, offset);
+				throw new CompoundParseException(all, offset);
 			Compound condition = parse(all, s.substring(0, i), offset);
 			Compound body = parse(all, s.substring(i + 1), offset + i + 1);
 			return new If(condition, body);
@@ -106,11 +106,11 @@ public class Cauldron {
 		return checkConstIdgNames(all, s, offset);
 	}
 
-	private static Compound checkConstIdgNames(String all, String s, int offset) throws CPE {
+	private static Compound checkConstIdgNames(String all, String s, int offset) throws CompoundParseException {
 		for (String constIdgName : constIdgNames) {
 			if (s.startsWith(constIdgName)) {
 				if (!s.equals(constIdgName)) {
-					throw new CPE(all, offset + constIdgName.length());
+					throw new CompoundParseException(all, offset + constIdgName.length());
 				}
 				try {
 					Class<?> obj;
@@ -123,7 +123,7 @@ public class Cauldron {
 				}
 			}
 		}
-		throw new CPE(all, offset);
+		throw new CompoundParseException(all, offset);
 	}
 
 	static String numbersToLetters(String s) {

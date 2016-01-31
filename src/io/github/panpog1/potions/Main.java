@@ -14,7 +14,7 @@ public class Main {
 			String input = in.nextLine();
 			try {
 				cauldron.add(input);
-			} catch (CPE e) {
+			} catch (CompoundParseException e) {
 				System.out.println("I don't recognize that ingredient");
 				System.out.println(input);
 				for (int i = 0; i < e.getErrorOffset(); i++)
@@ -32,7 +32,7 @@ public class Main {
 		for (String arg : args) {
 			try {
 				cauldron.add(arg);
-			} catch (CPE e) {
+			} catch (CompoundParseException e) {
 				System.out.printf("I don't recognize the ingredient %s.\nSkiping it.\n", arg);
 				skipped++;
 			}
