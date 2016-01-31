@@ -109,16 +109,17 @@ public class Cauldron {
 	private static Compound checkConstIdgNames(String all, String s, int offset) throws CPE {
 		for (String constIdgName : constIdgNames) {
 			if (s.startsWith(constIdgName)) {
-				if (s.equals(constIdgName)) {
-					try {
-						Class<?> obj;
-						obj = Class.forName(packageName + "." + constIdgName);
-						@SuppressWarnings("unchecked")
-						Class<Compound> clazz = (Class<Compound>) obj;
-						return clazz.getConstructor().newInstance();
-					} catch (Exception e) {
-						throw new AssertionError(e);
-					}
+				if (!s.equals(constIdgName)) {
+					throw new CPE(all, offset + constIdgName.length());
+				}
+				try {
+					Class<?> obj;
+					obj = Class.forName(packageName + "." + constIdgName);
+					@SuppressWarnings("unchecked")
+					Class<Compound> clazz = (Class<Compound>) obj;
+					return clazz.getConstructor().newInstance();
+				} catch (Exception e) {
+					throw new AssertionError(e);
 				}
 			}
 		}
