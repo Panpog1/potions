@@ -1,25 +1,67 @@
 package io.github.panpog1.potions;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-	private static Scanner in = new Scanner(System.in);
+	private static final Scanner in = new Scanner(System.in);
 	private static Cauldron cauldron = new Cauldron();
+	private static final Map<String, Cauldron> otherCauldrons = new HashMap<String, Cauldron>();
 
 	public static void main(String[] args) {
 		parseArgs(args);
+		boolean print = true;
 		while (true) {
-			System.out.println(cauldron);
+			if(print)
+				System.out.println(cauldron);
 			System.out.print("Add an ingredient: ");
 			String input = in.nextLine();
-			try {
-				cauldron.add(input);
-			} catch (CompoundParseException e) {
-				System.out.println("I don't recognize that ingredient");
-				System.out.println(input);
-				for (int i = 0; i < e.getErrorOffset(); i++)
-					System.out.print(" ");
-				System.out.println("^");
+			if (input.startsWith("#")) {
+				input = input.substring(1);
+				exicuteComand(input);
+			} else {
+				try {
+					cauldron.add(input);
+				} catch (CompoundParseException e) {
+					System.out.println("I don't recognize that ingredient");
+					System.out.println(input);
+					for (int i = 0; i < e.getErrorOffset(); i++)
+						System.out.print(" ");
+					System.out.println("^");
+				}
+			}
+		}
+	}
+
+	private static void exicuteComand(String s) {
+		if (s.equals("done")) {
+			return;
+		}
+		if (s.startsWith("cd ")) {
+			String name = s.substring(3);
+			if (otherCauldrons.containsKey(name)) {
+				cauldron = otherCauldrons.get(name);
+				return;
+			}
+		}
+		if (s.startsWith("save ")) {
+			otherCauldrons.put(s.substring(5), cauldron);
+			cauldron = new Cauldron();
+			return;
+		}
+		if (s.equals("ls")) {
+			for (Map.Entry<String, Cauldron> entry : otherCauldrons.entrySet()) {
+				System.out.println(String.format("%s %s", entry.getKey(), entry.getValue()));
+			}
+		}
+		if(s.startsWith("add ")){
+			String name = s.substring(4);
+			if (otherCauldrons.containsKey(name)) {
+				Cauldron toAdd = otherCauldrons.get(name);
+				for(Compound idg:toAdd.idgs)
+					cauldron.add(idg);
+				return;
 			}
 		}
 	}

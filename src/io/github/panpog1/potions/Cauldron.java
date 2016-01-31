@@ -23,9 +23,11 @@ public class Cauldron {
 	}
 
 	void add(String next) throws CompoundParseException {
-		Compound nextIdg;
-		nextIdg = parse(next);
-		idgs.add(nextIdg);
+		add(parse(next));
+	}
+
+	void add(Compound next) {
+		idgs.add(next);
 		FullyReact();
 	}
 
@@ -106,7 +108,8 @@ public class Cauldron {
 		return checkConstIdgNames(all, s, offset);
 	}
 
-	private static Compound checkConstIdgNames(String all, String s, int offset) throws CompoundParseException {
+	private static Compound checkConstIdgNames(String all, String s, int offset)
+			throws CompoundParseException {
 		for (String constIdgName : constIdgNames) {
 			if (s.startsWith(constIdgName)) {
 				if (!s.equals(constIdgName)) {
