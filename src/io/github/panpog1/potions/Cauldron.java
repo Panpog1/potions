@@ -39,6 +39,9 @@ public class Cauldron {
 		if (s.equals("Ae")) {
 			return new Ae();
 		}
+		if(s.equals("T")){
+			return new T();
+		}
 		if (s.equals("H")) {
 			return new H();
 		}
@@ -85,17 +88,6 @@ public class Cauldron {
 	}
 
 	boolean add(String next) throws CPE {
-		if (next.equals("T")) {
-			// because the equality relations change we need a new hash set.
-			Set<Compound> newIdgs = new HashSet<Compound>();
-			for (Compound idg : idgs) {
-				if (idg.tick()) {
-					newIdgs.add(idg);
-				}
-			}
-			idgs = newIdgs;
-			return true;
-		}
 		Compound nextIdg;
 		nextIdg = parse(next);
 		idgs.add(nextIdg);
