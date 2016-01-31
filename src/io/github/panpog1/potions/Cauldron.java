@@ -10,11 +10,43 @@ public class Cauldron {
 	public Set<Compound> idgs = new HashSet<Compound>();
 	public boolean h;
 
+	public String toString() {
+		if (idgs.isEmpty()) {
+			return "Cauldron is empty";
+		}
+		String r = "Cauldron contains: ";
+		for (Compound idg : idgs) {
+			String prefix = (h ? Integer.toHexString(idg.hashCode()) + ":" : "");
+			r += prefix + idg + " ";
+		}
+		return r;
+	}
+
+	void add(String next) throws CPE {
+		Compound nextIdg;
+		nextIdg = parse(next);
+		idgs.add(nextIdg);
+		FullyReact();
+	}
+
+	void FullyReact() {
+		boolean done = false;
+		while (!done) {
+			done = true;
+			for (Compound idg : idgs) {
+				if (idg.react(this)) {
+					done = false;
+					break;
+				}
+			}
+		}
+	}
+
 	static Compound parse(String s) throws CPE {
 		return parse(s, s, 0);
 	}
 
-	static Compound parse(String all, String s, int offset) throws CPE {
+	private static Compound parse(String all, String s, int offset) throws CPE {
 		// T S and H are in Add
 		if (s.isEmpty())
 			throw new CPE(all, offset);
@@ -74,8 +106,7 @@ public class Cauldron {
 		return checkConstIdgNames(all, s, offset);
 	}
 
-	private static Compound checkConstIdgNames(String all, String s, int offset)
-			throws CPE {
+	private static Compound checkConstIdgNames(String all, String s, int offset) throws CPE {
 		for (String constIdgName : constIdgNames) {
 			if (s.startsWith(constIdgName)) {
 				if (s.equals(constIdgName)) {
@@ -92,38 +123,6 @@ public class Cauldron {
 			}
 		}
 		throw new CPE(all, offset);
-	}
-
-	void add(String next) throws CPE {
-		Compound nextIdg;
-		nextIdg = parse(next);
-		idgs.add(nextIdg);
-		FullyReact();
-	}
-
-	void FullyReact() {
-		boolean done = false;
-		while (!done) {
-			done = true;
-			for (Compound idg : idgs) {
-				if (idg.react(this)) {
-					done = false;
-					break;
-				}
-			}
-		}
-	}
-
-	public String toString() {
-		if (idgs.isEmpty()) {
-			return "Cauldron is empty";
-		}
-		String r = "Cauldron contains: ";
-		for (Compound idg : idgs) {
-			String prefix = (h ? Integer.toHexString(idg.hashCode()) + ":" : "");
-			r += prefix + idg + " ";
-		}
-		return r;
 	}
 
 	static String numbersToLetters(String s) {
