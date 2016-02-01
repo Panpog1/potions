@@ -78,9 +78,9 @@ public class Cauldron {
 			return new R(inner);
 		}
 		if (s.startsWith("If(")) {
-			offset += 3;
 			if (!s.endsWith(")"))
-				throw new CompoundParseException(all, offset);
+				throw new CompoundParseException(all, offset+s.length());
+			offset += 3;
 			s = s.substring(3, s.length() - 1);
 			int i = 0;
 			int parens = 0;
