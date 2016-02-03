@@ -28,10 +28,6 @@ public class Cauldron {
 
 	void add(Compound next) {
 		idgs.add(next);
-		FullyReact();
-	}
-
-	void FullyReact() {
 		boolean done = false;
 		while (!done) {
 			done = true;
@@ -78,34 +74,38 @@ public class Cauldron {
 			return new R(inner);
 		}
 		if (s.startsWith("If(")) {
-			if (!s.endsWith(")"))
-				throw new CompoundParseException(all, offset+s.length());
-			offset += 3;
-			s = s.substring(3, s.length() - 1);
-			int i = 0;
-			int parens = 0;
-			boolean fail = true;
-			while (i < s.length()) {
-				if (s.charAt(i) == ',' && parens == 0) {
-					fail = false;
-					break;
-				} else if (s.charAt(i) == '(') {
-					parens++;
-				} else if (s.charAt(i) == ')') {
-					parens--;
-					if (parens > 0) {
-						throw new CompoundParseException(all, offset + i);
-					}
-				}
-				i++;
-			}
-			if (fail)
-				throw new CompoundParseException(all, offset);
-			Compound condition = parse(all, s.substring(0, i), offset);
-			Compound body = parse(all, s.substring(i + 1), offset + i + 1);
-			return new If(condition, body);
+			return parseIf(all, s, offset);
 		}
 		return checkConstIdgNames(all, s, offset);
+	}
+
+	static Compound parseIf(String all, String s, int offset) throws CompoundParseException {
+		if (!s.endsWith(")"))
+			throw new CompoundParseException(all, offset + s.length());
+		offset += 3;
+		s = s.substring(3, s.length() - 1);
+		int i = 0;
+		int parens = 0;
+		boolean fail = true;
+		while (i < s.length()) {
+			if (s.charAt(i) == ',' && parens == 0) {
+				fail = false;
+				break;
+			} else if (s.charAt(i) == '(') {
+				parens++;
+			} else if (s.charAt(i) == ')') {
+				parens--;
+				if (parens > 0) {
+					throw new CompoundParseException(all, offset + i);
+				}
+			}
+			i++;
+		}
+		if (fail)
+			throw new CompoundParseException(all, offset);
+		Compound condition = Cauldron.parse(all, s.substring(0, i), offset);
+		Compound body = Cauldron.parse(all, s.substring(i + 1), offset + i + 1);
+		return new If(condition, body);
 	}
 
 	private static Compound checkConstIdgNames(String all, String s, int offset)
