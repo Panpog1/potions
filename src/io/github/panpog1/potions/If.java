@@ -16,7 +16,6 @@ public class If extends Compound {
 		for (Compound condition : conditions) {
 			s += condition.toStringNoNums() + ",";
 		}
-		System.out.println(conditions.length);
 		return String.format("If(%s%s)", s, body.toStringNoNums());
 	}
 

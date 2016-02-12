@@ -48,13 +48,8 @@ public class Cauldron {
 		return parse(s, s, 0);
 	}
 
-	private static Compound parse(String all, String s, int offset) throws CompoundParseException {
-		Compound c = parse2(all, s, offset);
-		System.out.println(c + ": " + c.getClass().getName());
-		return c;
-	}
 
-	private static Compound parse2(String all, String s, int offset) throws CompoundParseException {
+	private static Compound parse(String all, String s, int offset) throws CompoundParseException {
 		// T S and H are in Add
 		if (s.trim().isEmpty())
 			throw new CompoundParseException(all, offset);
@@ -102,13 +97,11 @@ public class Cauldron {
 				Arrays.asList(s.replace("(", ",(,").replace(")", ",),").replace("\"", ",\",").split(",")));
 		while (tokens.remove(""));// remove all empty strings
 		List<Compound> parts = parseParts(all, offset, tokens);
-		System.out.println(parts);
 		// make conditions an array containing the contents of parts except for the
 		// last element
-		Compound[] conditions = new Compound[0];
-		final List<Compound> subList = parts.subList(0, parts.size());
+		final List<Compound> subList = parts.subList(0, parts.size() - 1);
+		Compound[] conditions = new Compound[subList.size()];
 		subList.toArray(conditions);
-		System.out.println(conditions);
 		return new If(conditions, parts.get(parts.size() - 1));
 	}
 
@@ -120,13 +113,11 @@ public class Cauldron {
 			String partString = "";
 			if (tokens.get(i).equals("\"")) {
 				do {
-					System.out.print(i + tokens.get(i) + " ");
 					if (i >= tokens.size()) {
 						throw new CompoundParseException(all, offset);
 					}
 					partString += tokens.get(i);
 					i++;
-					System.out.println(i + tokens.get(i) + " " + partString);
 				} while (!tokens.get(i).equals("\""));
 				partString += tokens.get(i);
 				System.out.println(partString);
@@ -138,7 +129,6 @@ public class Cauldron {
 
 	private static Compound checkConstIdgNames(String all, String s, int offset)
 			throws CompoundParseException {
-		System.out.println(s);
 		for (String constIdgName : constIdgNames) {
 			if (s.startsWith(constIdgName)) {
 				if (!s.equals(constIdgName)) {
