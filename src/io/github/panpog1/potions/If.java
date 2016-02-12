@@ -1,5 +1,7 @@
 package io.github.panpog1.potions;
 
+import java.util.Arrays;
+
 public class If extends Compound {
 
 	private Compound[] conditions;
@@ -34,7 +36,7 @@ public class If extends Compound {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((body == null) ? 0 : body.hashCode());
-		result = prime * result + ((conditions == null) ? 0 : conditions.hashCode());
+		result = prime * result + Arrays.hashCode(conditions);
 		return result;
 	}
 
@@ -52,10 +54,7 @@ public class If extends Compound {
 				return false;
 		} else if (!body.equals(other.body))
 			return false;
-		if (conditions == null) {
-			if (other.conditions != null)
-				return false;
-		} else if (!conditions.equals(other.conditions))
+		if (!Arrays.equals(conditions, other.conditions))
 			return false;
 		return true;
 	}
