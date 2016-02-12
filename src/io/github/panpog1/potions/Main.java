@@ -8,6 +8,7 @@ public class Main {
 	private static final Scanner in = new Scanner(System.in);
 	private static Cauldron cauldron = new Cauldron();
 	private static final Map<String, Cauldron> otherCauldrons = new HashMap<String, Cauldron>();
+	private static boolean printStackTrace=true;
 
 	public static void main(String[] args) {
 		parseArgs(args);
@@ -24,6 +25,8 @@ public class Main {
 				try {
 					cauldron.add(input);
 				} catch (CompoundParseException e) {
+					if(printStackTrace)
+						e.printStackTrace();
 					System.out.println("I don't recognize that ingredient");
 					System.out.println(input);
 					for (int i = 0; i < e.getErrorOffset(); i++)

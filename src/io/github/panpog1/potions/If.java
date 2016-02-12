@@ -2,23 +2,29 @@ package io.github.panpog1.potions;
 
 public class If extends Compound {
 
-	private Compound condition;
+	private Compound[] conditions;
 	private Compound body;
 
-	public If(Compound condition, Compound body) {
-		this.condition = condition;
+	public If(Compound[] conditions, Compound body) {
+		this.conditions = conditions;
 		this.body = body;
 	}
 
 	@Override
 	public String toStringSimple() {
-		return String.format("If(%s,%s)", condition.toStringNoNums(), body.toStringNoNums());
+		String s = "";
+		for (Compound condition : conditions) {
+			s += condition.toStringNoNums() + ",";
+		}
+		System.out.println(conditions.length);
+		return String.format("If(%s%s)", s, body.toStringNoNums());
 	}
 
 	@Override
 	public boolean react(Cauldron cauldron) {
-		if (!cauldron.idgs.contains(condition))
-			return false;
+		for (Compound condition : conditions)
+			if (!cauldron.idgs.contains(condition))
+				return false;
 		cauldron.idgs.remove(this);
 		cauldron.idgs.add(body);
 		return true;
@@ -29,7 +35,7 @@ public class If extends Compound {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((body == null) ? 0 : body.hashCode());
-		result = prime * result + ((condition == null) ? 0 : condition.hashCode());
+		result = prime * result + ((conditions == null) ? 0 : conditions.hashCode());
 		return result;
 	}
 
@@ -47,10 +53,10 @@ public class If extends Compound {
 				return false;
 		} else if (!body.equals(other.body))
 			return false;
-		if (condition == null) {
-			if (other.condition != null)
+		if (conditions == null) {
+			if (other.conditions != null)
 				return false;
-		} else if (!condition.equals(other.condition))
+		} else if (!conditions.equals(other.conditions))
 			return false;
 		return true;
 	}

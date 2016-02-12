@@ -1,6 +1,9 @@
 package io.github.panpog1.potions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Cauldron {
@@ -10,6 +13,7 @@ public class Cauldron {
 	public Set<Compound> idgs = new HashSet<Compound>();
 	public boolean h;
 
+	@Override
 	public String toString() {
 		if (idgs.isEmpty()) {
 			return "Cauldron is empty";
@@ -45,8 +49,14 @@ public class Cauldron {
 	}
 
 	private static Compound parse(String all, String s, int offset) throws CompoundParseException {
+		Compound c = parse2(all, s, offset);
+		System.out.println(c + ": " + c.getClass().getName());
+		return c;
+	}
+
+	private static Compound parse2(String all, String s, int offset) throws CompoundParseException {
 		// T S and H are in Add
-		if (s.isEmpty())
+		if (s.trim().isEmpty())
 			throw new CompoundParseException(all, offset);
 		s = numbersToLetters(s.trim());
 		if (s == null)
@@ -61,8 +71,10 @@ public class Cauldron {
 			return new E(inner);
 		}
 		if (s.startsWith("\"") && s.endsWith("\"")) {
-			s = s.substring(1, s.length() - 1);
 			offset++;
+			if (s.length() == 1)
+				throw new CompoundParseException(all, offset);
+			s = s.substring(1, s.length() - 1);
 			if (s.contains("\""))
 				throw new CompoundParseException(all, s.indexOf("\""));
 			if (s.contains(" "))
@@ -79,37 +91,54 @@ public class Cauldron {
 		return checkConstIdgNames(all, s, offset);
 	}
 
+	// TODO: Make offset more accurate in CompoundParseException thrown in this
+	// method
 	static Compound parseIf(String all, String s, int offset) throws CompoundParseException {
 		if (!s.endsWith(")"))
 			throw new CompoundParseException(all, offset + s.length());
 		offset += 3;
 		s = s.substring(3, s.length() - 1);
-		int i = 0;
-		int parens = 0;
-		boolean fail = true;
-		while (i < s.length()) {
-			if (s.charAt(i) == ',' && parens == 0) {
-				fail = false;
-				break;
-			} else if (s.charAt(i) == '(') {
-				parens++;
-			} else if (s.charAt(i) == ')') {
-				parens--;
-				if (parens > 0) {
-					throw new CompoundParseException(all, offset + i);
-				}
+		List<String> tokens = new ArrayList<String>(
+				Arrays.asList(s.replace("(", ",(,").replace(")", ",),").replace("\"", ",\",").split(",")));
+		while (tokens.remove(""));// remove all empty strings
+		List<Compound> parts = parseParts(all, offset, tokens);
+		System.out.println(parts);
+		// make conditions an array containing the contents of parts except for the
+		// last element
+		Compound[] conditions = new Compound[0];
+		final List<Compound> subList = parts.subList(0, parts.size());
+		subList.toArray(conditions);
+		System.out.println(conditions);
+		return new If(conditions, parts.get(parts.size() - 1));
+	}
+
+	private static List<Compound> parseParts(String all, int offset, List<String> tokens)
+			throws CompoundParseException {
+		List<Compound> parts = new ArrayList<Compound>();
+		System.out.println(tokens);
+		for (int i = 0; i < tokens.size(); i++) {
+			String partString = "";
+			if (tokens.get(i).equals("\"")) {
+				do {
+					System.out.print(i + tokens.get(i) + " ");
+					if (i >= tokens.size()) {
+						throw new CompoundParseException(all, offset);
+					}
+					partString += tokens.get(i);
+					i++;
+					System.out.println(i + tokens.get(i) + " " + partString);
+				} while (!tokens.get(i).equals("\""));
+				partString += tokens.get(i);
+				System.out.println(partString);
+				parts.add(parse(partString));
 			}
-			i++;
 		}
-		if (fail)
-			throw new CompoundParseException(all, offset);
-		Compound condition = Cauldron.parse(all, s.substring(0, i), offset);
-		Compound body = Cauldron.parse(all, s.substring(i + 1), offset + i + 1);
-		return new If(condition, body);
+		return parts;
 	}
 
 	private static Compound checkConstIdgNames(String all, String s, int offset)
 			throws CompoundParseException {
+		System.out.println(s);
 		for (String constIdgName : constIdgNames) {
 			if (s.startsWith(constIdgName)) {
 				if (!s.equals(constIdgName)) {
