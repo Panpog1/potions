@@ -25,8 +25,15 @@ public class Main {
 				try {
 					cauldron.add(input);
 				} catch (CompoundParseException e) {
-					if(printStackTrace)
+					if (printStackTrace) {
 						e.printStackTrace();
+						try {
+							// This makes the output occur in the correct order in eclipse
+							Thread.sleep(1);
+						} catch (InterruptedException e1) {
+							throw new AssertionError();
+						}
+					}
 					System.out.println("I don't recognize that ingredient");
 					System.out.println(input);
 					for (int i = 0; i < e.getErrorOffset(); i++)
