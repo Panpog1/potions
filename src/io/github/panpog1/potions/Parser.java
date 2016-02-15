@@ -62,15 +62,15 @@ public class Parser {
 			throw new CompoundParseException(all, offset + s.length());
 		offset += 3;
 		s = s.substring(3, s.length() - 1);
-		List<Compound> parts = parseComaSeperated(s, offset);
+		List<Compound> partsL = parseComaSeperated(s, offset);
 		// make conditions an array containing the contents of parts except for the
 		// last element
-		final List<Compound> subList = parts.subList(0, parts.size() - 1);
-		Compound[] conditions = new Compound[subList.size()];
-		subList.toArray(conditions);
-		return new If(conditions, parts.get(parts.size() - 1));
+		Compound[] parts = new Compound[partsL.size()];
+		partsL.toArray(parts);
+		return new If(parts);
 	}
 
+	// TODO Keep track of offset
 	private List<Compound> parseComaSeperated(String s, int offset) throws CompoundParseException {
 		List<String> tokens = new ArrayList<String>(
 				Arrays.asList(s.replace("(", ",(,").replace(")", ",),").replace("\"", ",\",").split(",")));

@@ -12,6 +12,10 @@ public class If extends Compound {
 		this.body = body;
 	}
 
+	public If(Compound[] parts) {
+		this(Arrays.copyOf(parts, parts.length - 1), parts[parts.length - 1]);
+	}
+
 	@Override
 	public String toStringSimple() {
 		String s = "";
