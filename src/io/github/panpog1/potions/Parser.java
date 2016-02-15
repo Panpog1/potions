@@ -50,24 +50,25 @@ public class Parser {
 			return new R(inner);
 		}
 		if (s.startsWith("If(")) {
-			return parseIf(s, offset);
+			return new If(tokenize("If(", s, offset));
+		}
+		if(s.startsWith("All(")){
+			return new All(tokenize("All(", s, offset));
 		}
 		return checkConstIdgNames(s, offset);
 	}
 
-	// TODO: Make offset more accurate in CompoundParseException thrown in this
-	// method
-	Compound parseIf(String s, int offset) throws CompoundParseException {
+	private Compound[] tokenize(String prefix, String s, int offset) throws CompoundParseException {
 		if (!s.endsWith(")"))
 			throw new CompoundParseException(all, offset + s.length());
-		offset += 3;
-		s = s.substring(3, s.length() - 1);
+		offset += prefix.length();
+		s = s.substring(prefix.length(), s.length() - 1);
 		List<Compound> partsL = parseComaSeperated(s, offset);
 		// make conditions an array containing the contents of parts except for the
 		// last element
 		Compound[] parts = new Compound[partsL.size()];
 		partsL.toArray(parts);
-		return new If(parts);
+		return parts;
 	}
 
 	// TODO Keep track of offset
