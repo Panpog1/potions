@@ -82,7 +82,6 @@ public class Parser {
 	private List<Compound> parseTokens(int offset, List<String> tokens)
 			throws CompoundParseException {
 		List<Compound> parts = new ArrayList<Compound>();
-		System.out.println(tokens);
 		for (int i = 0; i < tokens.size(); i++) {
 			String partString = "";
 			if (tokens.get(i).equals("\"")) {
@@ -94,37 +93,25 @@ public class Parser {
 					i++;
 				} while (!tokens.get(i).equals("\""));
 				partString += tokens.get(i);
-				System.out.println(partString);
 				parts.add(parse(partString));
 			} else if (tokens.get(i).equals("(")) {
 				i++;
-				System.out.print(i + " ");
 				int start = i;
 				for (int parens = 1; parens > 0; i++) {
 					if (i == tokens.size()) {
-						System.out.println("end");
 						throw new CompoundParseException(all, i + offset);
 					}
 					else if (tokens.get(i).equals("(")) {
 						parens++;
-						System.out.println("high");
 					} else if (tokens.get(i).equals(")")) {
 						parens--;
-						System.out.println("low");
 					} else {
-						System.out.println("expected");
 					}
-					System.out.println(tokens.get(i));
-					System.out.println(parens);
 				}
-				System.out.println();
 				String toParse = "";
-				System.out.println(start + " " + i);
 				List<String> subList = tokens.subList(start - 2, i);
-				System.out.println(subList);
 				for (String token : subList)
 					toParse += token;
-				System.out.println(toParse);
 				parts.add(parse(toParse));
 			}
 		}
