@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Parser {
-	static String[] constIdgNames = { "Ae", "T", "H", "Ah", "S" };
+	static final String[] IdgVarNames = { "A", "B", "C", "D", "X", "Y", "Z" };
+	static final String[] IdgNamesOfClasses = { "Ae", "T", "H", "Ah", "S" };
 	static final String packageName = Parser.class.getPackage().getName();
 
 	String all;
@@ -50,12 +51,34 @@ public class Parser {
 			return new R(inner);
 		}
 		if (s.startsWith("If(")) {
-			return new If(tokenize("If(", s, offset));
+			Compound[] parts = tokenize("If(", s, offset);
+			return new If(parts);
 		}
 		if(s.startsWith("All(")){
 			return new All(tokenize("All(", s, offset));
 		}
-		return checkConstIdgNames(s, offset);
+		for (String var : IdgVarNames) {
+			if (s.equals(var)) {
+				return new Var(s);
+			}
+		}
+		for (String constIdgName : IdgNamesOfClasses) {
+			if (s.startsWith(constIdgName)) {
+				if (!s.equals(constIdgName)) {
+					throw new CompoundParseException(all, offset + constIdgName.length());
+				}
+				try {
+					Class<?> obj;
+					obj = Class.forName(packageName + "." + constIdgName);
+					@SuppressWarnings("unchecked")
+					Class<Compound> clazz = (Class<Compound>) obj;
+					return clazz.getConstructor().newInstance();
+				} catch (Exception e) {
+					throw new AssertionError(e);
+				}
+			}
+		}
+		throw new CompoundParseException(all, offset);
 	}
 
 	private Compound[] tokenize(String prefix, String s, int offset) throws CompoundParseException {
@@ -106,7 +129,6 @@ public class Parser {
 						parens++;
 					} else if (tokens.get(i).equals(")")) {
 						parens--;
-					} else {
 					}
 				}
 				String toParse = "";
@@ -114,29 +136,11 @@ public class Parser {
 				for (String token : subList)
 					toParse += token;
 				parts.add(parse(toParse));
+			} else {
+				parts.add(parse(tokens.get(i)));
 			}
 		}
 		return parts;
-	}
-
-	private Compound checkConstIdgNames(String s, int offset) throws CompoundParseException {
-		for (String constIdgName : constIdgNames) {
-			if (s.startsWith(constIdgName)) {
-				if (!s.equals(constIdgName)) {
-					throw new CompoundParseException(all, offset + constIdgName.length());
-				}
-				try {
-					Class<?> obj;
-					obj = Class.forName(packageName + "." + constIdgName);
-					@SuppressWarnings("unchecked")
-					Class<Compound> clazz = (Class<Compound>) obj;
-					return clazz.getConstructor().newInstance();
-				} catch (Exception e) {
-					throw new AssertionError(e);
-				}
-			}
-		}
-		throw new CompoundParseException(all, offset);
 	}
 
 	String numbersToLetters(String s) {
