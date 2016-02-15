@@ -8,7 +8,7 @@ public class Main {
 	private static final Scanner in = new Scanner(System.in);
 	private static Cauldron cauldron = new Cauldron();
 	private static final Map<String, Cauldron> otherCauldrons = new HashMap<String, Cauldron>();
-	private static boolean printStackTrace=true;
+	private static boolean printStackTrace = false;
 
 	public static void main(String[] args) {
 		parseArgs(args);
